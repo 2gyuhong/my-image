@@ -61,7 +61,7 @@ const ImageBackgroundRemover: React.FC = () => {
 
     const updatedFiles = [...selectedFiles];
 
-    for (let file of filesToProcess) {
+    for (const file of filesToProcess) {
       const index = selectedFiles.indexOf(file);
       const startTime = Date.now();
       try {

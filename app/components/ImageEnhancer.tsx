@@ -54,13 +54,13 @@ const ImageEnhancer: React.FC = () => {
     }
   };
 
-  const handleCheckboxChange = (index: number) => {
-    setSelectedFiles(prev => 
-      prev.map((file, i) => 
-        i === index ? { ...file, isSelected: !file.isSelected } : file
-      )
-    );
-  };
+  // const handleCheckboxChange = (index: number) => {
+  //   setSelectedFiles(prev => 
+  //     prev.map((file, i) => 
+  //       i === index ? { ...file, isSelected: !file.isSelected } : file
+  //     )
+  //   );
+  // };
 
   const handleZoom = (index: number, zoomIn: boolean) => {
     setSelectedFiles(prev => 
