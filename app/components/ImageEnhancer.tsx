@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, WheelEvent } from 'react';
+import Image from 'next/image';
 
 interface ImageFile {
   file: File;
@@ -266,14 +267,10 @@ const ImageEnhancer: React.FC = () => {
   }, [selectedFiles]);
 
   useEffect(() => {
-    const handleMouseMoveWrapper = (event: MouseEvent) => {
-      handleMouseMove(event);
-    };
-
-    document.addEventListener('mousemove', handleMouseMoveWrapper);
+    document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
     return () => {
-      document.removeEventListener('mousemove', handleMouseMoveWrapper);
+      document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, handleMouseMove]);
@@ -312,7 +309,7 @@ const ImageEnhancer: React.FC = () => {
               <h3 className="text-xl font-bold mb-2">
                 원본 이미지: {file.width} x {file.height} 픽셀
               </h3>
-              <img src={file.preview} alt={`Selected ${index}`} className="max-w-full h-auto" />
+              <Image src={file.preview} alt={`Selected ${index}`} width={500} height={300} layout="responsive" />
             </div>
             <div className="w-full md:w-1/2">
               <h3 className="text-xl font-bold mb-2">
@@ -351,11 +348,13 @@ const ImageEnhancer: React.FC = () => {
                       onMouseDown={(e) => handleMouseDown(e, index)}
                       onWheel={(e) => handleWheel(e, index)}
                     >
-                      <img 
+                      <Image 
                         ref={el => { if (el) imageRefs.current[index] = el; }}
                         src={file.enhanced} 
                         alt={`Enhanced ${index}`} 
-                        className="absolute top-0 left-0 w-full h-full object-contain cursor-move" 
+                        layout="fill"
+                        objectFit="contain"
+                        className="cursor-move" 
                         data-index={index}
                         style={{ 
                           transform: `scale(${file.scale}) translate(${file.position.x}px, ${file.position.y}px)`,
