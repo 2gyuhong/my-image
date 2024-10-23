@@ -28,7 +28,7 @@ const ImageEnhancer: React.FC = () => {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      // 이전에 선택한 파일들의 URL 해제
+      // 이전에 선택��� 파일들의 URL 해제
       selectedFiles.forEach(file => URL.revokeObjectURL(file.preview));
       
       const newFiles: ImageFile[] = [];
@@ -72,7 +72,7 @@ const ImageEnhancer: React.FC = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = (event) => {
-        const img = new Image();
+        const img = document.createElement('img');
         img.onload = () => {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
@@ -136,7 +136,7 @@ const ImageEnhancer: React.FC = () => {
           const enhancedImageUrl = await checkEnhancementStatus(result.taskId, fileIndex);
           const endTime = Date.now();
           
-          const enhancedImg = new Image();
+          const enhancedImg = document.createElement('img');
           enhancedImg.onload = () => {
             updatedFiles[fileIndex].enhanced = enhancedImageUrl;
             updatedFiles[fileIndex].processingTime = endTime - startTime;
