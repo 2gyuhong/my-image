@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Image from 'next/image'; // next/image 추가
 
 interface ImageFile {
   file: File;
@@ -61,7 +62,7 @@ const ImageBackgroundRemover: React.FC = () => {
 
     const updatedFiles = [...selectedFiles];
 
-    for (const file of filesToProcess) {
+    for (const file of filesToProcess) { // 'const' 사용
       const index = selectedFiles.indexOf(file);
       const startTime = Date.now();
       try {
@@ -172,7 +173,13 @@ const ImageBackgroundRemover: React.FC = () => {
               <h3 className="text-xl font-bold mb-2">
                 원본 이미지: {file.width} x {file.height} 픽셀
               </h3>
-              <img src={file.preview} alt={`Selected ${index}`} className="max-w-full h-auto" />
+              <Image 
+                src={file.preview} 
+                alt={`Selected ${index}`} 
+                width={500} 
+                height={300} 
+                layout="responsive"
+              />
             </div>
             <div className="w-1/2">
               <h3 className="text-xl font-bold mb-2">
@@ -181,7 +188,13 @@ const ImageBackgroundRemover: React.FC = () => {
               </h3>
               {file.isSelected && file.processed ? (
                 <div>
-                  <img src={file.processed} alt={`Processed ${index}`} className="max-w-full h-auto mb-2" />
+                  <Image 
+                    src={file.processed} 
+                    alt={`Processed ${index}`} 
+                    width={500} 
+                    height={300} 
+                    layout="responsive"
+                  />
                   <button
                     onClick={() => handleDownload(file.processed, `processed_image_${index + 1}.png`)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm"

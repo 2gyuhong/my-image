@@ -54,14 +54,6 @@ const ImageEnhancer: React.FC = () => {
     }
   };
 
-  // const handleCheckboxChange = (index: number) => {
-  //   setSelectedFiles(prev => 
-  //     prev.map((file, i) => 
-  //       i === index ? { ...file, isSelected: !file.isSelected } : file
-  //     )
-  //   );
-  // };
-
   const handleZoom = (index: number, zoomIn: boolean) => {
     setSelectedFiles(prev => 
       prev.map((file, i) => {
@@ -121,7 +113,7 @@ const ImageEnhancer: React.FC = () => {
 
     const updatedFiles = [...selectedFiles];
 
-    for (let [index, file] of filesToProcess.entries()) {
+    for (const [, file] of filesToProcess.entries()) {
       const fileIndex = selectedFiles.indexOf(file);
       const startTime = Date.now();
       try {
@@ -163,15 +155,6 @@ const ImageEnhancer: React.FC = () => {
     }
 
     setIsLoading(false);
-  };
-
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = error => reject(error);
-    });
   };
 
   const formatProcessingTime = (ms: number) => {
@@ -273,7 +256,7 @@ const ImageEnhancer: React.FC = () => {
       });
     });
 
-    Object.entries(imageRefs.current).forEach(([index, img]) => {
+    Object.entries(imageRefs.current).forEach(([, img]) => {
       observer.observe(img);
     });
 
@@ -283,13 +266,17 @@ const ImageEnhancer: React.FC = () => {
   }, [selectedFiles]);
 
   useEffect(() => {
-    document.addEventListener('mousemove', handleMouseMove as any);
+    const handleMouseMoveWrapper = (event: MouseEvent) => {
+      handleMouseMove(event);
+    };
+
+    document.addEventListener('mousemove', handleMouseMoveWrapper);
     document.addEventListener('mouseup', handleMouseUp);
     return () => {
-      document.removeEventListener('mousemove', handleMouseMove as any);
+      document.removeEventListener('mousemove', handleMouseMoveWrapper);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging]);
+  }, [isDragging, handleMouseMove]);
 
   return (
     <div className="container mx-auto px-4">
