@@ -34,7 +34,7 @@ const ImageEnhancer: React.FC = () => {
       const newFiles: ImageFile[] = [];
       
       Array.from(event.target.files).forEach(file => {
-        const img = new Image();
+        const img = document.createElement('img'); // 'new Image()' 대신 사용
         img.onload = () => {
           newFiles.push({
             file,
