@@ -114,7 +114,7 @@ const ImageEnhancer: React.FC = () => {
 
     const updatedFiles = [...selectedFiles];
 
-    for (const [, file] of filesToProcess.entries()) {
+    for (const file of filesToProcess) {
       const fileIndex = selectedFiles.indexOf(file);
       const startTime = Date.now();
       try {
@@ -200,7 +200,7 @@ const ImageEnhancer: React.FC = () => {
     draggedImageIndex.current = index;
   };
 
-  const handleMouseMove = (event: MouseEvent) => {
+  const handleMouseMove = React.useCallback((event: MouseEvent) => {
     if (isDragging && draggedImageIndex.current !== null) {
       const dx = event.clientX - dragStart.x;
       const dy = event.clientY - dragStart.y;
@@ -213,7 +213,7 @@ const ImageEnhancer: React.FC = () => {
       );
       setDragStart({ x: event.clientX, y: event.clientY });
     }
-  };
+  }, [isDragging, dragStart]);
 
   const handleMouseUp = () => {
     setIsDragging(false);
@@ -273,7 +273,7 @@ const ImageEnhancer: React.FC = () => {
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [isDragging, handleMouseMove]);
+  }, [isDragging, handleMouseMove, handleMouseUp]);
 
   return (
     <div className="container mx-auto px-4">

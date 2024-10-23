@@ -26,10 +26,11 @@ const ImageBackgroundRemover: React.FC = () => {
       
       Array.from(event.target.files).forEach(file => {
         const img = new Image();
+        img.src = URL.createObjectURL(file);
         img.onload = () => {
           newFiles.push({
             file,
-            preview: URL.createObjectURL(file),
+            preview: img.src,
             isSelected: true,
             width: img.width,
             height: img.height
@@ -40,7 +41,6 @@ const ImageBackgroundRemover: React.FC = () => {
             setSelectedFiles(newFiles);
           }
         };
-        img.src = URL.createObjectURL(file);
       });
     }
   };
