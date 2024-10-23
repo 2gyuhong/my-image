@@ -196,7 +196,7 @@ const ImageBackgroundRemover: React.FC = () => {
                     layout="responsive"
                   />
                   <button
-                    onClick={() => handleDownload(file.processed, `processed_image_${index + 1}.png`)}
+                    onClick={() => file.processed && handleDownload(file.processed, `processed_image_${index + 1}.png`)}
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded text-sm"
                   >
                     다운로드
